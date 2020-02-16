@@ -7,7 +7,7 @@ import schedule
 import time
 import secrets
 
-sys.setrecursionlimit(20000)
+sys.setrecursionlimit(150000)
 
 def encrypt_string(hashString):
     sha_signature = \
@@ -26,18 +26,19 @@ def mine():
     stringFromPreviousBlock = f'{blockchain["hash"]}{blockchain["data"][0]["from"]}{blockchain["data"][0]["to"]}{blockchain["data"][0]["amount"]}{blockchain["data"][0]["timestamp"]}{blockchain["data"][0]["timestamp"]}{blockchain["nonce"]}'
 
     hashedBlock = encrypt_string(hash(stringFromPreviousBlock))
-
+    time.sleep(1)
     # Try to create a valid hash with different nonce values
-    def findValidNonce(nonce, nonceTry = 0):
-        nonceTry = nonce + 1
-        if nonceTry > nonce + 1000: return mine()
-        stringToHash = f'{hashedBlock}{transactions[0]["from"]}{transactions[0]["to"]}{transactions[0]["amount"]}{transactions[0]["timestamp"]}{timestamp}{nonceTry}'
+    def findValidNonce(count = 0):
+        count += 1
+        if count > 500: return mine()
+        nonce = secrets.randbelow(999999)
+        stringToHash = f'{hashedBlock}{transactions[0]["from"]}{transactions[0]["to"]}{transactions[0]["amount"]}{transactions[0]["timestamp"]}{timestamp}{nonce}'
         hashToCheck = encrypt_string(hash(stringToHash))
         print(hashToCheck)
-        if hashToCheck.startswith('0000'): return nonceTry
-        return findValidNonce(nonce, nonceTry)
+        if hashToCheck.startswith('0000'): return nonce
+        return findValidNonce(count)
 
-    validNonce = findValidNonce(secrets.randbelow(9999))
+    validNonce = findValidNonce()
     print(validNonce)
     # Post the valid nonce
     urlForPost = 'https://programmeren9.cmgt.hr.nl:8000/api/blockchain'
