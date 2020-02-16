@@ -19,13 +19,11 @@ def addBlocks(block1, array):
     block1 = createNewBlock(block1, block2)
     return addBlocks(block1, array)
 
-def createNewBlock(block1, block2, newBlock=[], count = 0):
-    if count < 10:
-        sum = int(block1[count]) + int(block2[count])
+def createNewBlock(block1, block2, newBlock=[]):
+    for i in range(10):
+        sum = int(block1[i]) + int(block2[i])
         number = sum % 10
         newBlock.append(str(number))
-        count += 1
-        return createNewBlock(block1, block2, newBlock, count)
     return newBlock
 
 
