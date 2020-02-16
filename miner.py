@@ -3,9 +3,11 @@ from mod10sha import hash
 from hashlib import sha256
 import json
 import sys
+import schedule
+import time
 import secrets
 
-sys.setrecursionlimit(2000)
+sys.setrecursionlimit(150000)
 
 def encrypt_string(hashString):
     sha_signature = \
@@ -24,8 +26,8 @@ stringFromPreviousBlock = f'{blockchain["hash"]}{blockchain["data"][0]["from"]}{
 hashedBlock = encrypt_string(hash(stringFromPreviousBlock))
 # Try to create a valid hash with different nonce values
 def findValidNonce():
-    for i in range(4000):
-        nonce = i + secrets.randbelow(99999)
+    for i in range(5000):
+        nonce = i + 1000 + 3 * i
         stringToHash = f'{hashedBlock}{transactions[0]["from"]}{transactions[0]["to"]}{transactions[0]["amount"]}{transactions[0]["timestamp"]}{timestamp}{nonce}'
         hashToCheck = encrypt_string(hash(stringToHash))
         print(nonce, hashToCheck)
