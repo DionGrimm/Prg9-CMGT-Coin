@@ -3,11 +3,11 @@ def stringToASCII(string):
     newList = []
     for c in string:
         if c.isdigit():
-            newList.append(int(c))
+            newList.append(c)
         else:
             string = str(ord(c))
             for n in string:
-                newList.append(int(n))
+                newList.append(n)
     return newList
 
 def addBlocks(block1, array):
@@ -21,9 +21,9 @@ def addBlocks(block1, array):
 
 def createNewBlock(block1, block2, newBlock=[], count = 0):
     if count < 10:
-        sum = block1[count] + block2[count]
+        sum = int(block1[count]) + int(block2[count])
         number = sum % 10
-        newBlock.append(number)
+        newBlock.append(str(number))
         count += 1
         return createNewBlock(block1, block2, newBlock, count)
     return newBlock
@@ -34,7 +34,7 @@ def addTillModOfTen(array, value = -1):
     if (len(array) % 10) != 0:
         value += 1
         if value > 9: value = 0
-        array.append(value)
+        array.append(str(value))
         return addTillModOfTen(array, value)
     return array
 
@@ -46,5 +46,5 @@ def hash(string):
     firstBlock = array[:10]
     array = array[10:]
     array = addBlocks(firstBlock, array)
-    array = ''.join(str(n) for n in array)
+    array = ''.join(n for n in array)
     return(array)
