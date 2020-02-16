@@ -5,7 +5,7 @@ import json
 import sys
 import secrets
 
-sys.setrecursionlimit(150000)
+sys.setrecursionlimit(2000)
 
 def encrypt_string(hashString):
     sha_signature = \
@@ -25,7 +25,7 @@ hashedBlock = encrypt_string(hash(stringFromPreviousBlock))
 # Try to create a valid hash with different nonce values
 def findValidNonce():
     for i in range(4000):
-        nonce = i + 1000
+        nonce = i + secrets.randbelow(99999)
         stringToHash = f'{hashedBlock}{transactions[0]["from"]}{transactions[0]["to"]}{transactions[0]["amount"]}{transactions[0]["timestamp"]}{timestamp}{nonce}'
         hashToCheck = encrypt_string(hash(stringToHash))
         print(nonce, hashToCheck)
